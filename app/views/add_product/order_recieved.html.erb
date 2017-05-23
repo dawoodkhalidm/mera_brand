@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <script src="http://s.codepen.io/assets/libs/modernizr.js" type="text/javascript"></script>
+
+
+  
+  
+      <link rel="stylesheet" href="css/style.css">
+
+  
+    
+    
+
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>Mera Brand</title>
+
+    <!-- Bootstrap Core CSS -->
+    
+    <!-- Custom CSS: You can use this stylesheet to override any Bootstrap styles and/or apply your own styles -->
+    
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Logo and responsive toggle -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+               
+            </div>
+            <!-- Navbar links -->
+   <div class="collapse navbar-collapse" id="navbar">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <%= link_to("home", {:controller => 'add_product', :action => 'product_index'}) %>                    </li>
+                                 
+ <li>
+                    <%= link_to("order status",:controller => "add_product", :action => "orderstatus") %>
+ </li> 
+ <li>
+                    <%= link_to("log out",:controller => "credentials", :action => "logout") %>
+ </li> 
+       
+                 <!--   <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Services <span class="caret"></span></a>
+                        <ul class="dropdown-menu" aria-labelledby="about-us">
+                            <li><a href="#">Engage</a></li>
+                            <li><a href="#">Pontificate</a></li>
+                            <li><a href="#">Synergize</a></li>
+                        </ul>
+                    </li>-->
+                </ul>
+
+                <!-- Search -->
+                <%= form_tag({:action => 'search_index'} , {class: "navbar-form navbar-right"}) do %>
+                                    <div class="form-group">
+                                        <%= text_field_tag(:search, nil, class: "form-control") %>
+                                    </div>)
+                
+                    <%= submit_tag("Search", class: "btn btn-default") %>
+                
+                
+                <% end %>
+
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+  <div class="jumbotron feature" style="background-color: yellowgreen;">
+    <div class="container" >
+      <h1>Mera Brand</h1>
+      <p> Create your OWN Brand.</p>
+    </div>
+  </div>
+
+    <!-- Content -->
+    <div class="container">
+         <% if !flash[:notice].blank? %> 
+        <div class="notice" style="color: red">
+        <%= flash[:notice] %>
+        </div>
+        <% end %>
+
+        <!-- Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header"><h1>Order status:</h1>
+        </div>
+        
+
+        <div class="row">
+            <article class="col-md-4 article-intro">
+  
+    <div id="pricing-table" class="clear">
+    
+    <% @customer.orders.each do |o| %>
+    <div class="plan">
+    <% @p = Product.find_by_id(o.product_id) %>
+    <% @b = BrandOwner.find_by_id(o.brand_owner_id) %>
+
+     <% if o.recieve == true %>
+        <h3>Order<span><div class="image-cropper">
+                    <%= image_tag @p.image.url(:thumb),:class => "rounded" %></div></span></h3>
+        <%= link_to("cancel", {:action => 'order_cancelation', :oid => o.id}, class: "signup") %>
+        <%= link_to("recieved", {:action => 'order_recieved', :oid => o.id}, class: "signup") %>        
+        <ul>
+            <li><b><%= @p.product_name %></b></li>
+            <li><b><%= @p.product_type %></b></li>
+            <li><b>Rs.<%= @p.product_price %></b></li>
+            <li><b>Ordered: </b><%= @p.product_quantity %></li>
+            <li><b>brand: </b><%= @b.brand_name %></li>
+            <li><b><%= o.status %></b></li>            
+        </ul>  
+       <% else %>
+          <h3>Order<span><div class="image-cropper">
+     <%= image_tag @p.image.url(:thumb),:class => "rounded" %></div></span></h3>
+     <%= form_for(:rating, :url => {:action => 'rating'}) do |f| %></br></br>
+    <b>rate this brand</b>
+    <ul class="form-style-">
+    <li><%=f.select :rate, options_for_select([["bad",1], ["fine",2], ["good",3], ["v.good",4], ["excellent",5]]), :class => 'field-select' %></li>
+    <%= hidden_field_tag(:oid , o.id) %>
+    <%= submit_tag ("ok") , class: "signup" %>
+    <% end %></ul>
+        <ul>
+            <li><b><%= @p.product_name %></b></li>
+            <li><b><%= @p.product_type %></b></li>
+            <li><b>Rs.<%= @p.product_price %></b></li>
+            <li><b>brand: </b><%= @b.brand_name %></li>          
+        </ul>
+    <% end %>
+    </div>
+      <% end %>
+           
+</div>
+  
+    <script src="js/index.js"></script>
+    
+            </article>
+           
+        </div>
+        <!--
+
+         
+
+    </div>
+    <!-- /.container -->
+  <footer>
+    <div class="footer-blurb"> 
+        <div class="small-print">
+          <div class="container">
+            <p><a href="#">Terms &amp; Conditions</a> | <a href="#">Privacy Policy</a> | <a href="#">Contact</a></p>
+            <p>Copyright &copy; Example.com 2015 </p>
+          </div>
+        </div>
+  </footer>
+
+    <!-- jQuery -->
+    <script src="js/jquery-1.11.3.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+  
+  <!-- IE10 viewport bug workaround -->
+  <script src="js/ie10-viewport-bug-workaround.js"></script>
+  
+  <!-- Placeholder Images -->
+  <script src="js/holder.min.js"></script>
+  
+</body>
+
+</html>
+
+
+

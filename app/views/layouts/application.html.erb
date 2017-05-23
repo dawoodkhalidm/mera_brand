@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+ <%= stylesheet_link_tag "default",:media =>'all' %>
+ <%= stylesheet_link_tag "custom.css",:media =>'all' %>
+ <%= stylesheet_link_tag "cssd.css",:media =>'all' %>
+ <%= stylesheet_link_tag "bootstrap.css",:media =>'all' %>
+ <%= stylesheet_link_tag "bootstrap.min.css",:media =>'all' %>
+ <%= stylesheet_link_tag "form.css",:media =>'all' %>
+ <%= stylesheet_link_tag "style.css",:media =>'all' %>
+ <%= javascript_include_tag "index.js",:media =>'all' %>
+ <%= javascript_include_tag "default",:media =>'all' %>
+ <%= javascript_include_tag "javas.js",:media =>'all' %>
+ <%= javascript_include_tag "bootstrap.js",:media =>'all' %>
+ <%= javascript_include_tag "bootstrap.min.js",:media =>'all' %>
+ <%= javascript_include_tag "holder.min.js",:media =>'all' %>
+ <%= javascript_include_tag "ie10-viewport-bug-workaround.js",:media =>'all' %>
+ <%= javascript_include_tag "jquery-1.11.3.min.js",:media =>'all' %>
+
+  </head>
+
+  <body>
+    <%= yield %>
+  </body>
+</html>
